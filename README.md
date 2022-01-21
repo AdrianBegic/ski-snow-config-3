@@ -1,4 +1,4 @@
-# ski-snow-config-3
+# products_list
 
 ## Project setup
 ```
