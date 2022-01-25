@@ -1,53 +1,57 @@
 <template>
-<div class="container">
+  <div class="container">
     <div class="mainCard">
-        <div class="panels">
-            <div class="panels__container">
-                <a class="panel" v-for="mainSport in mainSport" :key="mainSport.key">
-                    <router-link :to="{ name: 'sportOption', params: { id: mainSport.ID } }" style="text-decoration: none; color: inherit">
-                        <div class="panel__content" :style="{ backgroundImage: `url(${mainSport.Image})` }">
-                            <h3 class="panel__title">{{ mainSport.Title }}</h3>
-                        </div>
-                    </router-link>
-                </a>
-            </div>
+      <div class="panels">
+        <div class="panels__container">
+          <a class="panel" v-for="mainSport in mainSport" :key="mainSport.key">
+            <router-link
+              :to="{ name: 'sportOption', params: { id: mainSport.ID } }"
+              style="text-decoration: none; color: inherit"
+            >
+              <div
+                class="panel__content"
+                :style="{ backgroundImage: `url(${mainSport.Image})` }"
+              >
+                <h3 class="panel__title">{{ mainSport.MainTitle }}</h3>
+              </div>
+            </router-link>
+          </a>
         </div>
+      </div>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
-import {
-    db
-} from "../firebaseDb";
+import { db } from "../firebaseDb";
 
 export default {
-    name: "MainCard",
-    props: {
-        msg: String,
-    },
-    data() {
-        return {
-            mainSport: [],
-        };
-    },
-    created() {
-        db.collection("mainSport").onSnapshot((snapshotChange) => {
-            this.mainSport = [];
-            snapshotChange.forEach((doc) => {
-                this.mainSport.push({
-                    key: doc.id,
-                    Title: doc.data().Title,
-                    Image: doc.data().Image,
-                    ID: doc.data().ID,
-                });
-            });
+  name: "MainCard",
+  props: {
+    msg: String,
+  },
+  data() {
+    return {
+      mainSport: [],
+    };
+  },
+  created() {
+    db.collection("mainSport").onSnapshot((snapshotChange) => {
+      this.mainSport = [];
+      snapshotChange.forEach((doc) => {
+        this.mainSport.push({
+          key: doc.id,
+          MainTitle: doc.data().MainTitle,
+          Image: doc.data().Image,
+          ID: doc.data().ID,
         });
-    },
+      });
+    });
+     console.log(this.mainSport)
+  },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style scoped>
 /*--------------------------------------------MAIN CARDS----------------------------------------------*/
@@ -55,326 +59,328 @@ export default {
 /* Block */
 
 .container {
-    width: 100%;
-    height: 100vh;
-    display: flex;
+  width: 100%;
+  height: 100vh;
+  display: flex;
 }
 
 .mainCard {
-    width: 40%;
-    height: 60vh;
-    border-radius: 40px;
-    margin: 0 auto;
-    border: none;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
-        rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
-        rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translateX(-50%) translateY(-50%);
-    transform: translateX(-50%) translateY(-50%);
+  width: 40%;
+  height: 60vh;
+  border-radius: 40px;
+  margin: 0 auto;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
 }
 
 .img-holder {
-    border-radius: 8%;
-    background-color: #777;
-    width: 70%;
-    height: 350px;
-    margin: 0 auto;
-    cursor: pointer;
+  border-radius: 8%;
+  background-color: #777;
+  width: 70%;
+  height: 350px;
+  margin: 0 auto;
+  cursor: pointer;
 }
 
 .img-holder:hover {
-    transform: scale(101%);
+  transform: scale(101%);
 }
 
 /*---------------------------------------------------PANELS------------------------------------------------*/
 
 .panels {
-    width: 100%;
-    height: 100%;
-    border-radius: 40px;
-    overflow: hidden;
-    background: #000;
-    pointer-events: none;
+  width: 100%;
+  height: 100%;
+  border-radius: 40px;
+  overflow: hidden;
+  background: #000;
+  pointer-events: none;
 }
 
 .panels__container {
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    height: 100%;
-    width: 120%;
-    margin: 0 -10%;
-    visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  height: 100%;
+  width: 120%;
+  margin: 0 -10%;
+  visibility: hidden;
 }
 
 .panel {
-    display: inline-block;
-    height: 100%;
-    visibility: visible;
-    position: relative;
-    overflow: hidden;
-    flex: 1;
-    cursor: pointer;
-    text-decoration: none;
+  display: inline-block;
+  height: 100%;
+  visibility: visible;
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 /*////////////////////////////////////////*/
 /* Image/Text Container */
 .panel__content {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: center center no-repeat;
-    background-size: cover;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: center center no-repeat;
+  background-size: cover;
 }
 
 .panel__content:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-image: url("/src/assets/images/canada-skiing-header.jpg");
-    background: #000;
-    opacity: 0.5;
-    transition: opacity 1s cubic-bezier(0.6, 0, 0.2, 1);
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: url("/src/assets/images/canada-skiing-header.jpg");
+  background: #000;
+  opacity: 0.5;
+  transition: opacity 1s cubic-bezier(0.6, 0, 0.2, 1);
 }
 
 /*////////////////////////////////////////*/
 /* Title */
 .panel__title {
-    pointer-events: auto;
-    color: #fff;
-    position: relative;
-    z-index: 1;
-    transition: color 1s cubic-bezier(0.6, 0, 0.2, 1);
+  pointer-events: auto;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+  transition: color 1s cubic-bezier(0.6, 0, 0.2, 1);
+  font-size: 2em;
 }
 
 .panel__title:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: #000;
-    background: rgba(0, 0, 0, 0.7);
-    border: solid 2px #ffc12d;
-    z-index: -1;
-    padding: 0.5em 1em;
-    margin: -0.5em -1em;
-    opacity: 0;
-    transform: scale(0.9);
-    transition: all 1s cubic-bezier(0.6, 0, 0.2, 1);
-    transition-property: opacity, transform;
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: #000;
+  background: rgba(0, 0, 0, 0.7);
+  border: solid 2px #ffc12d;
+  z-index: -1;
+  padding: 0.5em 1em;
+  margin: -0.5em -1em;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: all 1s cubic-bezier(0.6, 0, 0.2, 1);
+  transition-property: opacity, transform;
 }
 
 /*////////////////////////////////////////*/
 /* Hover States */
 .panel {
-    transform: translate3d(0, 0, 0);
-    transition: transform 1s cubic-bezier(0.6, 0, 0.2, 1);
-    /* Inactive panel */
-    /* Override styles for an inactive panel AFTER the hovered panel */
-    /* Active panel */
+  transform: translate3d(0, 0, 0);
+  transition: transform 1s cubic-bezier(0.6, 0, 0.2, 1);
+  /* Inactive panel */
+  /* Override styles for an inactive panel AFTER the hovered panel */
+  /* Active panel */
 }
 
 .panel .panel__content {
-    transform: translateX(10%);
-    transition: transform 1s cubic-bezier(0.6, 0, 0.2, 1);
+  transform: translateX(10%);
+  transition: transform 1s cubic-bezier(0.6, 0, 0.2, 1);
 }
 
 .panel:last-child .panel__content {
-    transform: translateX(-10%);
+  transform: translateX(-10%);
 }
 
 .panels:hover .panel {
-    transform: translate3d(-10%, 0, 0);
+  transform: translate3d(-10%, 0, 0);
 }
 
 .panels:hover .panel .panel__content {
-    transform: translateX(14%);
+  transform: translateX(14%);
 }
 
 .panels:hover .panel .panel__content:before {
-    opacity: 0.7;
+  opacity: 0.7;
 }
 
-.panels .panel:hover~.panel {
-    transform: translate3d(10%, 0, 0);
+.panels .panel:hover ~ .panel {
+  transform: translate3d(10%, 0, 0);
 }
 
-.panels .panel:hover~.panel .panel__content {
-    transform: translateX(-14%);
+.panels .panel:hover ~ .panel .panel__content {
+  transform: translateX(-14%);
 }
 
 .panels .panel:hover {
-    z-index: 2;
-    transform: translate3d(10%, 0, 0);
-    pointer-events: auto;
+  z-index: 2;
+  transform: translate3d(10%, 0, 0);
+  pointer-events: auto;
 }
 
 .panels .panel:hover:last-child {
-    transform: translate3d(-10%, 0, 0);
+  transform: translate3d(-10%, 0, 0);
 }
 
 .panels .panel:hover .panel__content {
-    transform: translateX(0%);
+  transform: translateX(0%);
 }
 
 .panels .panel:hover .panel__content:before {
-    opacity: 0;
+  opacity: 0;
 }
 
 .panels .panel:hover .panel__title {
-    color: #ffc12d;
+  color: #ffc12d;
 }
 
 .panels .panel:hover .panel__title:before {
-    opacity: 1;
-    transform: scale(1);
+  opacity: 1;
+  transform: scale(1);
 }
 
 /*////////////////////////////////////////*/
 
 .panels--stacked .panels__container {
-    width: 100%;
-    height: 120%;
-    margin: -10% 0;
-    flex-direction: column;
+  width: 100%;
+  height: 120%;
+  margin: -10% 0;
+  flex-direction: column;
 }
 
 .panels--stacked .panel {
-    height: 50%;
-    width: 100%;
-    transform: translate3d(0, 0, 0);
+  height: 50%;
+  width: 100%;
+  transform: translate3d(0, 0, 0);
 }
 
 .panels--stacked .panel .panel__content {
-    transform: translate3d(0, 10%, 0);
+  transform: translate3d(0, 10%, 0);
 }
 
 .panels--stacked .panel:last-child .panel__content {
-    transform: translate3d(0, -10%, 0);
+  transform: translate3d(0, -10%, 0);
 }
 
 .panels--stacked:hover .panel {
-    transform: translate3d(0, -10%, 0);
+  transform: translate3d(0, -10%, 0);
 }
 
 .panels--stacked:hover .panel .panel__content {
-    transform: translate3d(0, 14%, 0);
+  transform: translate3d(0, 14%, 0);
 }
 
-.panels--stacked .panel:hover~.panel {
-    transform: translate3d(0, 10%, 0);
+.panels--stacked .panel:hover ~ .panel {
+  transform: translate3d(0, 10%, 0);
 }
 
-.panels--stacked .panel:hover~.panel .panel__content {
-    transform: translate3d(0, -14%, 0);
+.panels--stacked .panel:hover ~ .panel .panel__content {
+  transform: translate3d(0, -14%, 0);
 }
 
 .panels--stacked .panel:hover {
-    transform: translate3d(0, 10%, 0);
+  transform: translate3d(0, 10%, 0);
 }
 
 .panels--stacked .panel:hover:last-child {
-    transform: translate3d(0, -10%, 0);
+  transform: translate3d(0, -10%, 0);
 }
 
 .panels--stacked .panel:hover .panel__content {
-    transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 }
 
 /* Responsive */
 @media (max-width: 550px) {
-    .panels .panels__container {
-        width: 100%;
-        height: 120%;
-        margin: -10% 0;
-        flex-direction: column;
-    }
+  .panels .panels__container {
+    width: 100%;
+    height: 120%;
+    margin: -10% 0;
+    flex-direction: column;
+  }
 
-    .panels .panel {
-        height: 50%;
-        width: 100%;
-        transform: translate3d(0, 0, 0);
-    }
+  .panels .panel {
+    height: 50%;
+    width: 100%;
+    transform: translate3d(0, 0, 0);
+  }
 
-    .panels .panel .panel__content {
-        transform: translate3d(0, 10%, 0);
-    }
+  .panels .panel .panel__content {
+    transform: translate3d(0, 10%, 0);
+  }
 
-    .panels .panel:last-child .panel__content {
-        transform: translate3d(0, -10%, 0);
-    }
+  .panels .panel:last-child .panel__content {
+    transform: translate3d(0, -10%, 0);
+  }
 
-    .panels:hover .panel {
-        transform: translate3d(0, -10%, 0);
-    }
+  .panels:hover .panel {
+    transform: translate3d(0, -10%, 0);
+  }
 
-    .panels:hover .panel .panel__content {
-        transform: translate3d(0, 14%, 0);
-    }
+  .panels:hover .panel .panel__content {
+    transform: translate3d(0, 14%, 0);
+  }
 
-    .panels .panel:hover~.panel {
-        transform: translate3d(0, 10%, 0);
-    }
+  .panels .panel:hover ~ .panel {
+    transform: translate3d(0, 10%, 0);
+  }
 
-    .panels .panel:hover~.panel .panel__content {
-        transform: translate3d(0, -14%, 0);
-    }
+  .panels .panel:hover ~ .panel .panel__content {
+    transform: translate3d(0, -14%, 0);
+  }
 
-    .panels .panel:hover {
-        transform: translate3d(0, 10%, 0);
-    }
+  .panels .panel:hover {
+    transform: translate3d(0, 10%, 0);
+  }
 
-    .panels .panel:hover:last-child {
-        transform: translate3d(0, -10%, 0);
-    }
+  .panels .panel:hover:last-child {
+    transform: translate3d(0, -10%, 0);
+  }
 
-    .panels .panel:hover .panel__content {
-        transform: translate3d(0, 0, 0);
-    }
+  .panels .panel:hover .panel__content {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 /*////////////////////////////////////////*/
 /* Specific Design Setup */
 @font-face {
-    font-family: "Oswald";
-    font-style: normal;
-    font-weight: 400;
-    src: url(https://fonts.gstatic.com/s/oswald/v40/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvsUZiYA.ttf) format("truetype");
+  font-family: "Oswald";
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/oswald/v40/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvsUZiYA.ttf)
+    format("truetype");
 }
 
 .panel__title {
-    font-family: "Oswald", sans-serif;
-    text-transform: uppercase;
-    font-size: 2.5em;
-    letter-spacing: 0.1em;
+  font-family: "Oswald", sans-serif;
+  text-transform: uppercase;
+  font-size: 2.5em;
+  letter-spacing: 0.1em;
 }
 
 @media (max-width: 800px) {
-    .panel__title {
-        font-size: 1.5em;
-    }
+  .panel__title {
+    font-size: 1.5em;
+  }
 }
 
 @media (max-width: 600px) {
-    .panel__title {
-        font-size: 1.25em;
-    }
+  .panel__title {
+    font-size: 1.25em;
+  }
 }
 
 html,
 body {
-    height: 100%;
+  height: 100%;
 }
 </style>

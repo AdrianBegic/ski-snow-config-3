@@ -1,63 +1,83 @@
 <template>
-<div>
-  <Background/>
-  <article v-if="visible != true" class="card">
-    <h1 class="card-title">SKI</h1>
-    <div class="option-container">
-      <div id="freestyle" class="optionOne" @click="selector($event)">
-        <h1 class="sub-title">{{mainSport.Title}}</h1>
-   
-      </div>
-      <div id="downhill" class="optionTwo" @click="selector($event)">
-        <h1 class="sub-title">DOWNHILL</h1>
-       
-      </div>
-      <div id="mountain" class="optionThree" @click="selector($event)">
-        <h1 class="sub-title">MOUNTAIN</h1>
- 
-      </div>
+  <div>
+    <div class="card">
+      <h1>{{ mainSport.MainTitle }}</h1>
+      <h1>{{ mainSport.MainTitle }}</h1>
     </div>
-    <button class="back" @click="$router.push('/')"></button>
-  </article>
-  <Option v-if="visible" />
   </div>
 </template>
 
 <script>
-import Option from "@/components/Option.vue";
 import { db } from "../firebaseDb";
-import Background from "@/components/Background.vue";
 
 export default {
-  name: "Ski",
+  name: "Option",
   props: {
     msg: String,
   },
-  components: {
-    Background,
-    Option,
-  },
+  components: {},
 
   data() {
     return {
       mainSport: {},
+     
     };
   },
+
+   
+
   created() {
-    db.collection("mainSport")
-      .where("ID", "==", this.$route.params.id)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          this.mainSport = {
-            key: doc.id,
-            Price: doc.data().Price,
-            Title: doc.data().Title,
-            Image: doc.data().Image,
-            ID: doc.data().ID,
-          };
+    db.collection("mainSport").where("ID", "==", this.$route.params.id)
+    .onSnapshot((snapshotChange) => {
+      this.mainSport = [];
+      snapshotChange.forEach((doc) => {
+        this.mainSport.push({
+          key: doc.id,
+          MainTitle: doc.data().MainTitle,
+          SubSport: doc.data().SubSport,
+          SubTitle: doc.data().SubSport.downhill.SubTitle,
+          Image: doc.data().Image,
+          ID: doc.data().ID,
         });
       });
+    });
+    
   },
 };
 </script>
+
+<style scoped>
+* {
+  color: #000;
+}
+
+.card {
+  width: 60%;
+  height: 60vh;
+  border-radius: 40px;
+  margin: 0 auto;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+}
+
+.subCard {
+  display: inline-Block;
+  background-color: #000;
+  height: 50%;
+  width: 30%;
+}
+</style>

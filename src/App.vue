@@ -43,7 +43,7 @@ export default {
 }
 .nav-link {
   color: inherit;
-  font-size: 2em;
+  font-size: 1.25em;
   margin-right: 50px;
 }
 

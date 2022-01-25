@@ -5,7 +5,7 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/Sport/:id',
+    path: '/:id',
     name: 'sportOption',
     component: () => import('../components/Option.vue')
   },
