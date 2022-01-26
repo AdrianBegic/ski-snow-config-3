@@ -9,6 +9,12 @@ const routes = [
     name: 'sportOption',
     component: () => import('../components/Option.vue')
   },
+
+  {
+    path: '/sportOption/:id',
+    name: 'subSportOption',
+    component: () => import('../components/subSportDesc.vue')
+  },
 ]
 
 const router = new VueRouter({
